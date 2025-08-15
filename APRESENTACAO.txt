@@ -6,4 +6,4 @@ Turma: 2A
 
 Prof: Gustavo Clay
 
-Aluno: Alex Ariel
+Aluno: Alex Araujo
