@@ -1,45 +1,62 @@
-// importar o express
-const express = require('express')
+const express = require('express');
+const router = express.Router();
 
-// crio uma instância(express) da minha aplicação 
-const app = express()
-// guardar o numero da porta que vai ser alocada
-const porta = 3000
+// Operações matemáticas
+function somar(a, b) {
+  return a + b;
+}
 
-// Middlewares (Intermediários)
-app.use((req, res, next) => {
-  console.log("Time: ", new Date().toLocaleString())
-  console.log("Metodo: ", req.method)
-  console.log("Rota: ", req.url)
-  next()
-})
+function subtrair(a, b) {
+  return a - b;
+}
 
-// metodo e a rota
-// req -> dados da requisição
-// res -> manipulador da resposta
-// next -> chamador do proximo middleware
-app.get('/teste', (req, res, next) => {
-  res.send("TESTE TESTANDO 123!!!")
-})
+function multiplicar(a, b) {
+  return a * b;
+}
 
-app.get('/pessoas', (req, res, next) => {
-  const pessoas = [
-    {
-      id: 1,
-      nome: "João",
-      idade: "20"
-    },
-    {
-      id: 2,
-      nome: "Pedro",
-      idade: "22"
-    },
-  ]
-  res.json(pessoas)
-})
+function dividir(a, b) {
+  if (b === 0) return 'Divisão por zero não permitida';
+  return a / b;
+}
 
-// Executa a aplicação escolhendo a porta
-app.listen(porta, () => {
-  // imprimo uma mensagem pra confirmar que a aplicação está funcionando (rodando na porta escolhida)
-  console.log("Aplicação rodando em http://localhost:3000")
-})
+function aoQuadrado(a) {
+  return a * a;
+}
+
+function raizQuadrada(a) {
+  if (a < 0) return 'Raiz de número negativo não permitida';
+  return Math.sqrt(a);
+}
+
+// Endpoints
+router.get('/somar', (req, res) => {
+  const { numA, numB } = req.query;
+  res.json({ resultado: somar(Number(numA), Number(numB)) });
+});
+
+router.get('/subtrair', (req, res) => {
+  const { numA, numB } = req.query;
+  res.json({ resultado: subtrair(Number(numA), Number(numB)) });
+});
+
+router.get('/multiplicar', (req, res) => {
+  const { numA, numB } = req.query;
+  res.json({ resultado: multiplicar(Number(numA), Number(numB)) });
+});
+
+router.get('/dividir', (req, res) => {
+  const { numA, numB } = req.query;
+  res.json({ resultado: dividir(Number(numA), Number(numB)) });
+});
+
+router.get('/ao-quadrado', (req, res) => {
+  const { num } = req.query;
+  res.json({ resultado: aoQuadrado(Number(num)) });
+});
+
+router.get('/raiz-quadrada', (req, res) => {
+  const { num } = req.query;
+  res.json({ resultado: raizQuadrada(Number(num)) });
+});
+
+module.exports = router;
